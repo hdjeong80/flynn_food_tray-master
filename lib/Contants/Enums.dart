@@ -1,0 +1,4 @@
+enum Place{
+  one,
+  two
+}

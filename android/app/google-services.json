@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "274613031721",
+    "project_id": "food-tray-app",
+    "storage_bucket": "food-tray-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274613031721:android:4737a9c30796a04959dd38",
+        "android_client_info": {
+          "package_name": "com.brackets.trayapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274613031721-gkbkrqud7cu90kpdu3dk0cqr10o41tu8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brackets.trayapp",
+            "certificate_hash": "94e2a6a619a0f7b52db3605d0d99c19bc233860a"
+          }
+        },
+        {
+          "client_id": "274613031721-fqh1okv0249ekm0jp63r3h2dom7gh3kr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChf5YtWxZJrfCx3KBzrQ7BJx73BX2ks1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274613031721-fqh1okv0249ekm0jp63r3h2dom7gh3kr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_restart/flutter_restart.dart';
 import 'package:food_tray/Contants/colors.dart';
 import 'package:food_tray/Screens/modal/UserModal.dart';
 import 'package:food_tray/Screens/notice/NoticeSceen.dart';
@@ -24,6 +25,7 @@ import 'package:food_tray/Widgets/TextWidget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:food_tray/message.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'LoginInScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -94,7 +96,7 @@ class _LoginInScreenState extends State<LoginInScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextWidget(
-                  text: '식판스토리앱 \n회원가입',
+                  text: '식판스토리앱 로그인',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
@@ -124,7 +126,7 @@ class _LoginInScreenState extends State<LoginInScreen> {
                         ),
                         FormBuilderTextField(
                           name: 'Email',
-                          initialValue:"zaid@g.com",
+                          initialValue:"",
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
@@ -154,7 +156,7 @@ class _LoginInScreenState extends State<LoginInScreen> {
                         ),
                         FormBuilderTextField(
                           name: 'password',
-                          initialValue: "123456",
+                          initialValue: "",
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
@@ -222,11 +224,21 @@ class _LoginInScreenState extends State<LoginInScreen> {
 
       _isloading = true;
     });
-
-    QuerySnapshot ds = await FirebaseFirestore.instance.collection('user').where('Email',isEqualTo: data['Email']).where('Password',isEqualTo:data['Password'] ).get();
-    if(ds.size>0)
+    QuerySnapshot ds = null;
+     ds = await FirebaseFirestore.instance.collection('user').where('Email',isEqualTo: data['Email']).where('password',isEqualTo: data['password']).get();
+    if(ds.docs.length>0)
     {
-      await saveDeviceToken(ds.docs[0].id);
+      // await saveDeviceToken(ds.docs[0].id);
+        Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      prefs.setString("_foodemail", data['Email']);
+      prefs.setString("_foodplace", ds.docs.first.data()["place"].toString());
+
+      await  FirebaseMessaging.instance.subscribeToTopic(ds.docs.first.data()["place"]);
+
+
+
+
 
       print(ds.size);
 
@@ -282,15 +294,18 @@ showpopup(ds, data) ;
           ),
           onPressed: () {
 
-            UserModal user = UserModal(querySnapshot: res);
+            FlutterRestart.restartApp();
 
-            print(user);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NoticeScreen(user),
-              ),
-            );
+            //
+            // UserModal user = UserModal(querySnapshot: res);
+            //
+            // print(user);
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => NoticeScreen(user),
+            //   ),
+            // );
           },
 
           width: 120,

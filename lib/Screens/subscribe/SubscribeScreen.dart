@@ -39,6 +39,7 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
   bool cms;
 
   bool _loading = false;
+  String secondRadioVal = "";
 
   @override
   void initState() {
@@ -248,7 +249,13 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
                             ),
                             left: 0.0,
                           ),
-                          FormBuilderRadioGroup(
+                          FormBuilderRadioGroup (
+                            onChanged: (e){
+                              print(e);
+                              setState(() {
+                                secondRadioVal = e;
+                              });
+                            },
                             controlAffinity: ControlAffinity.trailing,
                             activeColor: greenColor,
                             name: 'radio2',
@@ -262,10 +269,10 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
                                 .toList(growable: false),
                           ),
                           formField(
-                              '반을 입력해 주세요', 'textHeading', false, "txt6", true),
+                              '반을 입력해 주세요', 'textHeading', false, "txt6", "없음"!=secondRadioVal),
                           formField(
                               '자녀의 이름을 입력해 주세요', 'textHeading', false, "txt7",
-                              true),
+                              "없음"!=secondRadioVal),
                           formField(
                               '신청인의 성명을 입력해 주세요', '신청인 성명', true, "name", true),
                           formField(
@@ -528,7 +535,7 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
   Future<String> _capturePng() async {
     RenderRepaintBoundary boundary = globalKey.currentContext
         .findRenderObject() as RenderRepaintBoundary;
-    var image = await boundary.toImage(pixelRatio:5 );
+    var image = await boundary.toImage(pixelRatio:2 );
     ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
     Image.network(pngBytes.toString());

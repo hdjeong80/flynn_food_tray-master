@@ -37,7 +37,9 @@ class _NoticeDetailScreenState extends State<NoticeDetailScreen> {
             Icons.arrow_back_ios,
             color: blackColor,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: Padding(

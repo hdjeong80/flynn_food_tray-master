@@ -16,7 +16,7 @@ class UserModal{
   }
   String Email;
   Place plceEnum;
-  int  place;
+  String  place;
 
 
   String name;
@@ -35,8 +35,8 @@ class UserModal{
   }
   initFromMap(Map data){
     this.Email = data['Email'];
-    this.place = data['place'];
-    if(this.place ==0)
+    this. place = data['place'];
+    if(this.place =='1')
     {    plceEnum = Place.one;
     }
     else{

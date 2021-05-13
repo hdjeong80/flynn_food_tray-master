@@ -9,6 +9,8 @@ class ChatModal{
   String Email;
   String time;
 
+
+
   bool Answered = true ;
 
   ChatModal(Map querySnapshot){
@@ -28,5 +30,8 @@ class ChatModal{
 
 
   }
+
+
+
 
 }

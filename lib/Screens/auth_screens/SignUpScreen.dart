@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_restart/flutter_restart.dart';
 import 'package:food_tray/Contants/Enums.dart';
 import 'package:food_tray/Contants/colors.dart';
 import 'package:food_tray/Screens/auth_screens/LoginInScreen.dart';
@@ -53,7 +54,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           backgroundColor: Colors.white,
           bottomNavigationBar: GestureDetector(
             onTap: (){
-              Navigator.push(
+
+
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => LoginInScreen(),
@@ -110,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             });
                           },
                           child: TextWidget(
-                            text: '흥덕/서원/세종',
+                            text: '상당/청원/충북',
                             style: TextStyle(
                               color: place == false ? Colors.black : grayColor,
                               fontSize: 14,
@@ -271,16 +274,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     QuerySnapshot ds = await FirebaseFirestore.instance.collection('user').where('Email',isEqualTo: data['Email']).get();
     var t =null;
-    if(ds.size==0)
+    if(ds.docs.length==0)
     {
       var _place = place?Place.one.index:Place.two.index;
-      Map mp ={'place':_place};
+      Map mp ={'place':(_place+1).toString()};
       mp.addAll(data);
 
 
         t = await FirebaseFirestore.instance.collection('user').add(Map<String, dynamic>.from(mp));
 
-      await  FirebaseMessaging.instance.subscribeToTopic(_place.toString());
     }
 
 

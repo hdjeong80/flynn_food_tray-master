@@ -21,7 +21,7 @@ class ChatWidget extends StatelessWidget {
 
         children: [
 
-          TextWidget(
+    /*      TextWidget(
             text: '답변 대기중',
             style: TextStyle(
               color: chatModal.Answered ?greenColor:Color.fromRGBO(181, 190, 195, 1),
@@ -32,16 +32,16 @@ class ChatWidget extends StatelessWidget {
             right: width * 0.08,
             top: height * 0.02,
             bottom: height * 0.03,
-          ),
+          ),*/
           QACard(
             question: '문의',
             answer: chatModal.question,
           ),
-          QACard(
+            chatModal.Answered?    QACard(
             question: chatModal.Answered?'답변':'문의',
             answer: chatModal.Answered?chatModal.answer:chatModal.question,
             boldAnswer:chatModal.Answered? FontWeight.bold:FontWeight.normal,
-          ),
+          ):Container(),
           Divider(
             color: grayColor,
             thickness: 1.5,

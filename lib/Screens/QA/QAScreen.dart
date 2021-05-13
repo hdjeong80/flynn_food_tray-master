@@ -9,7 +9,7 @@ import 'package:food_tray/Widgets/TextWidget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import 'ChatWidget.dart';
-
+import 'package:food_tray/Screens/modal/SubscriptionModal.dart';
 class QAScreen extends StatefulWidget {
   UserModal userModal;
   QAScreen(this.userModal);
@@ -59,6 +59,19 @@ class _QAScreenState extends State<QAScreen> {
           Map mp  = {"Email":widget.userModal.Email,"time":DateTime.now()};
           mp.addAll(val);
           print(val['question']);
+         QuerySnapshot qs = await FirebaseFirestore.instance
+              .collection("subscription")
+              .where("Email", isEqualTo: widget.userModal.Email)
+              .orderBy("datetime",descending: true)
+              .get();
+         if(qs.docs.length>0){
+           mp.addAll(SubsrciptionModal(qs.docs[0]).toMap());
+
+         }else{
+          mp.addAll( SubsrciptionModal(null).toMap());
+
+         }
+
          await  FirebaseFirestore.instance.collection("QA").add(Map.from(mp));
 
         }
@@ -139,15 +152,91 @@ class _QAScreenState extends State<QAScreen> {
         ),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("QA").orderBy("time",descending: true).snapshots(),
+        stream: FirebaseFirestore.instance.collection("QA").where("Email",isEqualTo: widget.userModal.Email).orderBy("time",descending: true).snapshots(),
         builder:(context, snapshot) {
           if(snapshot.hasData) {
             QuerySnapshot qs = snapshot.data;
             print(qs.docs.length);
+           List answeredWid = [];
+            List questionWid = [];
 
-            return ListView.builder(
-              itemCount: qs.docs.length,
-              itemBuilder: (context, index) =>  ChatWidget(ChatModal(qs.docs[index].data())),
+            qs.docs.forEach((element) {
+              ChatModal chatModal  =ChatModal(element.data());
+              if(chatModal.Answered)
+              answeredWid.add(ChatWidget(chatModal ));
+              else{
+                questionWid.add(ChatWidget(chatModal ));
+
+              }
+
+            });
+
+            return Container(
+               height: height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  Container(
+                    height: height /2-50,
+                    width: width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                      children: [
+                        TextWidget(
+                          text: '답변 대기중',
+                          style: TextStyle(
+                            color: Color.fromRGBO(181, 190, 195, 1),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          left: width * 0.08,
+                          right: width * 0.08,
+                          top: height * 0.02,
+                          bottom: height * 0.03,
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: questionWid.length,
+                            itemBuilder: (context, index) =>  questionWid[index],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Container(
+                    height: height /2 -50,
+                    width: width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                      children: [
+                        TextWidget(
+                          text: '답변 대기중',
+                          style: TextStyle(
+                            color: greenColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          left: width * 0.08,
+                          right: width * 0.08,
+                          top: height * 0.02,
+                          bottom: height * 0.03,
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: answeredWid.length,
+                            itemBuilder: (context, index) => answeredWid[index],
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             );
           }
           return Container(child: ModalProgressHUD(child:Container(),inAsyncCall: true,),);

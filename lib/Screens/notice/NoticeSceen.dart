@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_restart/flutter_restart.dart';
 import 'package:food_tray/Contants/Enums.dart';
 import 'package:food_tray/Contants/colors.dart';
 import 'package:food_tray/Screens/QA/QAScreen.dart';
@@ -9,6 +11,7 @@ import 'package:food_tray/Screens/price/PriceScreen.dart';
 import 'package:food_tray/Widgets/TextWidget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../subscribe/SubscribeScreen.dart';
 import 'NoticeModal.dart';
@@ -39,7 +42,59 @@ class _NoticeScreenState extends State<NoticeScreen> {
         elevation: 0.0,
         iconTheme: IconThemeData(color: blackColor),
       ),
-      drawer: Container(),
+      drawer: Drawer(
+        child:  Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(height: 150,),
+              TextWidget(
+                text: "야",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+                left: 0.0,
+                top: 0.0,
+                bottom: 5.0,
+                right: 0.0,
+              ),
+              TextWidget(
+                text: widget.userModal.Email,
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+                left: 0.0,
+                top: 0.0,
+                bottom: 0.0,
+                right: 0.0,
+              ),
+              Container(height: 20,),
+
+              FlatButton(
+                color: Colors.white,
+                onPressed:_restartApp,
+                child: TextWidget(
+                  text: 'Logout?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: Colors.black,
+                  ),
+                  left: 0.0,
+                  top: 0.0,
+                  bottom: 0.0,
+                  right: 0.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: bottomBar(height, width),
       body: Padding(
         padding: EdgeInsets.only(
@@ -75,16 +130,20 @@ class _NoticeScreenState extends State<NoticeScreen> {
             FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection("notice")
-                    .where("place", isEqualTo: '1')
+                    .where("place", isEqualTo: widget.userModal.place.toString())
                     .limit(3)
                     .orderBy("time", descending: true)
                     .get(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+print(snapshot.data.docs.length);
+print(widget.userModal.place);
+
                     if (ls.length == 0) {
                       snapshot.data.docs.forEach((element) {
                         ls.add(NoticeModal(element,widget.userModal));
                         docid = element.id;
+                        print(docid);
                       });
                     }
                     // ls = [];
@@ -110,7 +169,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                     .get();
                 QuerySnapshot qs = await FirebaseFirestore.instance
                     .collection("notice")
-                    .where("place", isEqualTo: '1')
+                    .where("place", isEqualTo: widget.userModal.place.toString())
                     .orderBy("time", descending: true)
                     .startAfterDocument(ds)
                     .limit(3)
@@ -272,5 +331,16 @@ class _NoticeScreenState extends State<NoticeScreen> {
         ],
       ),
     );
+  }
+  void _restartApp() async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+    final SharedPreferences prefs = await _prefs;
+
+    print("restarting app");
+    if(await prefs.clear())
+      await  FirebaseMessaging.instance.subscribeToTopic(widget.userModal.place.toString());
+
+    FlutterRestart.restartApp();
   }
 }

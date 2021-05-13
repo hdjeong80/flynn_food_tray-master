@@ -56,6 +56,7 @@ dependencies:
   screenshot: ^0.3.0
   firebase_messaging: ^8.0.0-dev.15
   flutter_local_notifications: ^4.0.1+2
+  flutter_restart: ^0.0.3
 
 
 dev_dependencies:

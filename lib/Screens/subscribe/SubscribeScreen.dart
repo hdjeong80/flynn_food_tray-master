@@ -52,6 +52,7 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
   firebase_storage.UploadTask uploadTask;
   List<firebase_storage.UploadTask> _uploadTasks = [];
 
+
   @override
   Widget build(BuildContext context) {
     print(widget.userModal.Email);
@@ -268,11 +269,18 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
                                 FormBuilderFieldOption(value: lang))
                                 .toList(growable: false),
                           ),
-                          formField(
-                              '반을 입력해 주세요', 'textHeading', false, "txt6", "없음"!=secondRadioVal),
-                          formField(
-                              '자녀의 이름을 입력해 주세요', 'textHeading', false, "txt7",
-                              "없음"!=secondRadioVal),
+                        if("없음"!=secondRadioVal)  Column(
+                            children: [
+                              formField(
+                                  '반을 입력해 주세요', 'textHeading', false, "txt6", "없음"!=secondRadioVal),
+                              formField(
+                                  '자녀의 이름을 입력해 주세요', 'textHeading', false, "txt7",
+                                  "없음"!=secondRadioVal),
+
+                            ],
+                          ),
+
+
                           formField(
                               '신청인의 성명을 입력해 주세요', '신청인 성명', true, "name", true),
                           formField(
@@ -525,10 +533,16 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
     print(widget.userModal.Email);
 
 
-    FirebaseFirestore.instance
+   await FirebaseFirestore.instance
         .collection("subscription").add(Map.from(mp));
     setState(() {
       _loading = false;
+    });
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      // formKey.currentState.dispose();
+      Navigator.pop(context);
+
     });
   }
 
@@ -598,8 +612,6 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
 
 
   }
-
-
 
   getStorageRef(email) {
 

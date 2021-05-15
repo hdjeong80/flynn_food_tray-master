@@ -1,5 +1,5 @@
 enum Place{
-  zero,
+  // zero,
   one,
   two
 }

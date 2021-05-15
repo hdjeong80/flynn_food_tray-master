@@ -50,18 +50,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
             children: [
               Container(height: 150,),
               TextWidget(
-                text: "야",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-                left: 0.0,
-                top: 0.0,
-                bottom: 5.0,
-                right: 0.0,
-              ),
-              TextWidget(
                 text: widget.userModal.Email,
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
@@ -79,7 +67,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 color: Colors.white,
                 onPressed:_restartApp,
                 child: TextWidget(
-                  text: 'Logout?',
+                  text: '로그아웃',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,

@@ -13,6 +13,7 @@ import 'package:food_tray/Widgets/TextWidget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:food_tray/message.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'LoginInScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -282,6 +283,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 
         t = await FirebaseFirestore.instance.collection('user').add(Map<String, dynamic>.from(mp));
+       ds = await FirebaseFirestore.instance.collection('user').where('Email',isEqualTo: data['Email']).get();
+
+
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      final SharedPreferences prefs = await _prefs;
+      prefs.setString("_foodemail", data['Email']);
+      prefs.setString("_foodplace", ds.docs.first.data()["place"].toString());
+
+      await  FirebaseMessaging.instance.subscribeToTopic(ds.docs.first.data()["place"]);
+
 
     }
 
@@ -331,8 +342,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             "OK",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () {Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginInScreen(),));
+          onPressed: () {
+            FlutterRestart.restartApp();
+
+          //   Navigator.pop(context);
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginInScreen(),));
 
           }          ,
           width: 120,

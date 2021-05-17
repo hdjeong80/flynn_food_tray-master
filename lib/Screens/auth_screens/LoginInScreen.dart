@@ -292,7 +292,7 @@ showpopup(ds, data) ;
             "OK",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () {
+          onPressed: () async {
 
             FlutterRestart.restartApp();
 

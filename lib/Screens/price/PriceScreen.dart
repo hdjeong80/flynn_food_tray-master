@@ -72,11 +72,12 @@ class _PriceScreenState extends State<PriceScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SubscribeScreen(true,widget.userModal),
+                      builder: (context) =>
+                          SubscribeScreen(true, widget.userModal),
                     ),
                   );
                 },
@@ -90,16 +91,17 @@ class _PriceScreenState extends State<PriceScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SubscribeScreen(false,widget.userModal),
+                      builder: (context) =>
+                          SubscribeScreen(false, widget.userModal),
                     ),
                   );
                 },
                 child: TextWidget(
-                  text: '가상계좌',
+                  text: widget.userModal.place == '1' ? '가상계좌' : '카드결제',
                   style: TextStyle(
                     color: grayColor,
                     fontSize: 14,

@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_restart/flutter_restart.dart';
 import 'package:food_tray/Contants/colors.dart';
+import 'package:food_tray/Screens/auth_screens/PlaceScreen.dart';
 import 'package:food_tray/Screens/modal/UserModal.dart';
 import 'package:food_tray/Screens/notice/NoticeSceen.dart';
 import 'package:food_tray/Widgets/TextWidget.dart';
+import 'package:get/get.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -29,7 +31,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'LoginInScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
 class LoginInScreen extends StatefulWidget {
   @override
   _LoginInScreenState createState() => _LoginInScreenState();
@@ -45,14 +46,16 @@ class _LoginInScreenState extends State<LoginInScreen> {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage message) {
-
       if (message != null) {
-
-        Navigator.push(context,MaterialPageRoute(builder: (context) => NoticeScreen(UserModal()),));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NoticeScreen(UserModal()),
+            ));
       }
     });
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+        FlutterLocalNotificationsPlugin();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
@@ -77,11 +80,14 @@ class _LoginInScreenState extends State<LoginInScreen> {
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
-      Navigator.push(context,MaterialPageRoute(builder: (context) => NoticeScreen(UserModal(mp: message.data)),));
-
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NoticeScreen(UserModal(mp: message.data)),
+          ));
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -126,7 +132,7 @@ class _LoginInScreenState extends State<LoginInScreen> {
                         ),
                         FormBuilderTextField(
                           name: 'Email',
-                          initialValue:"",
+                          initialValue: "",
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
@@ -137,10 +143,11 @@ class _LoginInScreenState extends State<LoginInScreen> {
                             border: OutlineInputBorder(),
                             labelText: '이메일을 입력해주세요.',
                           ),
-                          validator:  FormBuilderValidators.compose([
-
-                            FormBuilderValidators.email(context,errorText: '이 필드에는 유효한 이메일 주소가 필요합니다.'),
-                            FormBuilderValidators.required(context,errorText: '이 필드는 필수입니다'),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.email(context,
+                                errorText: '이 필드에는 유효한 이메일 주소가 필요합니다.'),
+                            FormBuilderValidators.required(context,
+                                errorText: '이 필드는 필수입니다'),
 
                             // FormBuilderValidators.(context),
                           ]),
@@ -157,6 +164,7 @@ class _LoginInScreenState extends State<LoginInScreen> {
                         FormBuilderTextField(
                           name: 'password',
                           initialValue: "",
+                          obscureText: true,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
@@ -168,24 +176,20 @@ class _LoginInScreenState extends State<LoginInScreen> {
                             labelText: '비밀번호를 입력해주세요.',
                           ),
                           validator: FormBuilderValidators.compose([
-
-                            FormBuilderValidators.minLength(context,6,errorText: '비밀번호는 6 자리 숫자 여야합니다.',allowEmpty: false),
-                            FormBuilderValidators.required(context,errorText: '이 필드는 필수입니다'),
-
-
+                            FormBuilderValidators.minLength(context, 6,
+                                errorText: '비밀번호는 6 자리 숫자 여야합니다.',
+                                allowEmpty: false),
+                            FormBuilderValidators.required(context,
+                                errorText: '이 필드는 필수입니다'),
                           ]),
                         ),
-
                         SizedBox(height: 30),
                         GestureDetector(
                           onTap: () {
                             formKey.currentState.save();
-                            if(formKey.currentState.validate()){
+                            if (formKey.currentState.validate()) {
                               LoginUser(formKey.currentState.value);
                             }
-
-
-
                           },
                           child: Container(
                             height: height * 0.08,
@@ -196,18 +200,36 @@ class _LoginInScreenState extends State<LoginInScreen> {
                               ),
                             ),
                             child: Center(
-                              child: TextWidget(
-                                text: '로그인',
+                              child: Text(
+                                '로그인',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: greenColor,
                                 ),
-                                top: height * 0.02,
                               ),
                             ),
                           ),
-                        )
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                          child: TextButton(
+                            onPressed: () {
+                              Get.to(() => PlaceScreen());
+                            },
+                            child: Text(
+                              '아직 계정이 없나요? 회원가입하기',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: greenColor,
+                              ),
+                            ),
+                          ),
+                          alignment: Alignment.centerRight,
+                        ),
                       ],
                     ),
                   ),
@@ -219,53 +241,47 @@ class _LoginInScreenState extends State<LoginInScreen> {
       ),
     );
   }
-  LoginUser(data)async{
-    setState(() {
 
+  LoginUser(data) async {
+    setState(() {
       _isloading = true;
     });
     QuerySnapshot ds = null;
-     ds = await FirebaseFirestore.instance.collection('user').where('Email',isEqualTo: data['Email']).where('password',isEqualTo: data['password']).get();
-    if(ds.docs.length>0)
-    {
+    ds = await FirebaseFirestore.instance
+        .collection('user')
+        .where('Email', isEqualTo: data['Email'])
+        .where('password', isEqualTo: data['password'])
+        .get();
+    if (ds.docs.length > 0) {
       // await saveDeviceToken(ds.docs[0].id);
-        Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
       prefs.setString("_foodemail", data['Email']);
       prefs.setString("_foodplace", ds.docs.first.data()["place"].toString());
 
-      await  FirebaseMessaging.instance.subscribeToTopic(ds.docs.first.data()["place"]);
-
-
-
-
+      await FirebaseMessaging.instance
+          .subscribeToTopic(ds.docs.first.data()["place"]);
 
       print(ds.size);
-
-
-    }else{
-      ds =null;
+    } else {
+      ds = null;
     }
-
 
     setState(() {
       _isloading = false;
-
     });
 
-showpopup(ds, data) ;
-
+    showpopup(ds, data);
   }
-  showpopup(res,data){
-    if(res==null)
-    {
+
+  showpopup(res, data) {
+    if (res == null) {
       Alert(
         context: context,
         type: AlertType.error,
         title: "ERROR",
         desc: "USER LOGIN FAILED",
         buttons: [
-
           DialogButton(
             child: Text(
               "ok",
@@ -279,13 +295,11 @@ showpopup(ds, data) ;
       return;
     }
 
-
     Alert(
       context: context,
       type: AlertType.success,
       title: "SUCCESS",
       desc: "USER LOGIN",
-
       buttons: [
         DialogButton(
           child: Text(
@@ -293,8 +307,9 @@ showpopup(ds, data) ;
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-
-            FlutterRestart.restartApp();
+            // FlutterRestart.restartApp();
+            UserModal user = UserModal(querySnapshot: res);
+            Get.offAll(() => NoticeScreen(user));
 
             //
             // UserModal user = UserModal(querySnapshot: res);
@@ -307,7 +322,6 @@ showpopup(ds, data) ;
             //   ),
             // );
           },
-
           width: 120,
         )
       ],

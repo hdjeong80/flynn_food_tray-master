@@ -8,12 +8,7 @@ class QACard extends StatelessWidget {
   final String answer;
   FontWeight boldAnswer;
 
-  QACard({
-    this.question,
-    this.answer,
-    this.boldAnswer
-
-  });
+  QACard({this.question, this.answer, this.boldAnswer});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +20,7 @@ class QACard extends StatelessWidget {
       ),
       child: Card(
         color: Color.fromRGBO(255, 255, 255, 1),
-        elevation: 4.0,
+        elevation: 0,
         child: Container(
           width: double.infinity,
           margin: EdgeInsets.all(
@@ -48,7 +43,7 @@ class QACard extends StatelessWidget {
               TextWidget(
                 text: this.answer,
                 style: TextStyle(
-                  fontWeight: boldAnswer?? FontWeight.normal,
+                  fontWeight: boldAnswer ?? FontWeight.normal,
                   color: blackColor,
                   fontSize: 13,
                 ),

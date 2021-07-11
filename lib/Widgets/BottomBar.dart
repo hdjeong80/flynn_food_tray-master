@@ -7,12 +7,11 @@ class BottomBar extends StatelessWidget {
   final double textHeight;
   final String text;
   final Function onPressedFunction;
-  BottomBar({
-    this.containerHeight,
-    this.textHeight,
-    this.text,
-    this.onPressedFunction
-  });
+  BottomBar(
+      {this.containerHeight,
+      this.textHeight,
+      this.text,
+      this.onPressedFunction});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,19 +21,19 @@ class BottomBar extends StatelessWidget {
         decoration: BoxDecoration(
           color: greenColor,
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10),
-            topLeft: Radius.circular(10),
+            topRight: Radius.circular(20),
+            topLeft: Radius.circular(20),
           ),
         ),
         child: Center(
-          child: TextWidget(
-            text: text,
+          child: Text(
+            text,
             style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
               color: Colors.white,
+              letterSpacing: 1,
             ),
-            top: textHeight,
           ),
         ),
       ),

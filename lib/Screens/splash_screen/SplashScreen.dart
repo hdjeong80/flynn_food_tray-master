@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:food_tray/Screens/auth_screens/LoginInScreen.dart';
 import 'package:food_tray/Screens/auth_screens/PlaceScreen.dart';
 import 'package:food_tray/Screens/modal/UserModal.dart';
 import 'package:food_tray/Screens/notice/NoticeSceen.dart';
@@ -17,40 +18,35 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     // TODO: implement initState
-startTime();
- }
- startTime() async {
+    startTime();
+  }
 
-   final SharedPreferences prefs = await _prefs;
-     // SharedPreferences.setMockInitialValues({});
+  startTime() async {
+    final SharedPreferences prefs = await _prefs;
+    // SharedPreferences.setMockInitialValues({});
 
-   String _email = prefs.getString("_foodemail");
-   String _place = prefs.getString("_foodplace");
-   if (_place != null) {
-     var duration = new Duration(seconds: 2);
-     return new Timer(duration, (){
-       Navigator.pushReplacement(context, MaterialPageRoute(
-           builder: (context) => NoticeScreen(UserModal(mp: {"Email":_email,"place":_place})),)
-       );}
-       );
+    String _email = prefs.getString("_foodemail");
+    String _place = prefs.getString("_foodplace");
+    if (_place != null) {
+      var duration = new Duration(seconds: 2);
+      return new Timer(duration, () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NoticeScreen(
+                  UserModal(mp: {"Email": _email, "place": _place})),
+            ));
+      });
+    } else {
+      var duration = new Duration(seconds: 2);
+      return new Timer(duration, route);
+    }
+  }
 
-   }
-
-   else {
-     var duration = new Duration(seconds: 2);
-     return new Timer(duration, route);
-   }
- }
-
- route() {
-
-
-   Navigator.pushReplacement(context, MaterialPageRoute(
-       builder: (context) => PlaceScreen()
-   )
-   );
- }
-
+  route() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginInScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +57,15 @@ startTime();
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PlaceScreen(),
+              builder: (context) => LoginInScreen(),
             ),
           );
         },
         child: Center(
-          child: Image.asset('assets/logo.png'),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 2,
+            child: Image.asset('assets/logo.png'),
+          ),
         ),
       ),
     );

@@ -10,6 +10,7 @@ import 'package:food_tray/Screens/modal/UserModal.dart';
 import 'package:food_tray/Screens/notice/NoticeSceen.dart';
 import 'package:food_tray/Widgets/BottomBar.dart';
 import 'package:food_tray/Widgets/TextWidget.dart';
+import 'package:get/get.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:food_tray/message.dart';
@@ -28,22 +29,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormBuilderState>();
   bool place = true;
   bool _loading = false;
-    TextEditingController _passwordtxtCtrl = TextEditingController();
-    String pasString = "";
-
+  TextEditingController _passwordtxtCtrl = TextEditingController();
+  String pasString = "";
 
   @override
   void initState() {
     super.initState();
-    place = widget._place==Place.one?true:false;
-  _passwordtxtCtrl.addListener(() {
-    setState(() {
-      pasString = _passwordtxtCtrl.text;
-      print("dsd");
+    place = widget._place == Place.one ? true : false;
+    _passwordtxtCtrl.addListener(() {
+      setState(() {
+        pasString = _passwordtxtCtrl.text;
+        print("dsd");
+      });
     });
-  });
-
   }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -53,23 +53,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         inAsyncCall: _loading,
         child: Scaffold(
           backgroundColor: Colors.white,
-          bottomNavigationBar: GestureDetector(
-            onTap: (){
-
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginInScreen(),
-                ),
-              );
-            },
-            child: BottomBar(
-              containerHeight: height * 0.10,
-              textHeight: height * 0.03,
-              text: '이미 계정이 있습니다',
-            ),
-          ),
+          // bottomNavigationBar: GestureDetector(
+          //   onTap: () {
+          //     Navigator.pushReplacement(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => LoginInScreen(),
+          //       ),
+          //     );
+          //   },
+          //   child: BottomBar(
+          //     containerHeight: height * 0.10,
+          //     textHeight: height * 0.03,
+          //     text: '이미 계정이 있습니다',
+          //   ),
+          // ),
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,10 +156,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             border: OutlineInputBorder(),
                             labelText: '이메일을 입력해주세요.',
                           ),
-                          validator:  FormBuilderValidators.compose([
-
-                            FormBuilderValidators.email(context,errorText: '이 필드에는 유효한 이메일 주소가 필요합니다.'),
-                            FormBuilderValidators.required(context,errorText: '이 필드는 필수입니다'),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.email(context,
+                                errorText: '이 필드에는 유효한 이메일 주소가 필요합니다.'),
+                            FormBuilderValidators.required(context,
+                                errorText: '이 필드는 필수입니다'),
 
                             // FormBuilderValidators.(context),
                           ]),
@@ -178,6 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         FormBuilderTextField(
                           name: 'password',
                           textInputAction: TextInputAction.next,
+                          obscureText: true,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                               color: grayColor,
@@ -187,13 +187,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             border: OutlineInputBorder(),
                             labelText: '비밀번호를 입력해주세요.',
                           ),
-                           controller:  _passwordtxtCtrl,
+                          controller: _passwordtxtCtrl,
                           validator: FormBuilderValidators.compose([
-
-                            FormBuilderValidators.minLength(context,6,errorText: '비밀번호는 6 자리 숫자 여야합니다.',allowEmpty: false),
-                            FormBuilderValidators.required(context,errorText: '이 필드는 필수입니다'),
-
-
+                            FormBuilderValidators.minLength(context, 6,
+                                errorText: '비밀번호는 6 자리 숫자 여야합니다.',
+                                allowEmpty: false),
+                            FormBuilderValidators.required(context,
+                                errorText: '이 필드는 필수입니다'),
                           ]),
                         ),
                         SizedBox(height: 10),
@@ -208,6 +208,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         FormBuilderTextField(
                           name: 'password1',
                           textInputAction: TextInputAction.done,
+                          obscureText: true,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(
                               color: grayColor,
@@ -217,11 +218,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             border: OutlineInputBorder(),
                             labelText: '비밀번호를 다시 입력해주세요.',
                           ),
-                          validator:  FormBuilderValidators.compose([
-
-                            FormBuilderValidators.required(context,errorText: '이 필드는 필수입니다'),
-                            FormBuilderValidators.equal(context,  pasString  ,errorText: '비밀번호가 일치하지 않습니다 *')
-
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(context,
+                                errorText: '이 필드는 필수입니다'),
+                            FormBuilderValidators.equal(context, pasString,
+                                errorText: '비밀번호가 일치하지 않습니다 *')
                           ]),
                         ),
                         SizedBox(height: 25),
@@ -229,11 +230,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onTap: () {
                             print(_passwordtxtCtrl);
                             formKey.currentState.save();
-                            if(
-                            formKey.currentState.validate()) {
+                            if (formKey.currentState.validate()) {
                               Registeruser(formKey.currentState.value);
                             }
-
                           },
                           child: Container(
                             height: height * 0.08,
@@ -244,14 +243,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                             child: Center(
-                              child: TextWidget(
-                                text: '회원가입',
+                              child: Text(
+                                '회원가입',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: greenColor,
                                 ),
-                                top: height * 0.02,
+                                // top: height * 0.02,
                               ),
                             ),
                           ),
@@ -267,57 +266,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-  Registeruser(data)async{
-    setState(() {
 
+  Registeruser(data) async {
+    setState(() {
       _loading = true;
     });
 
-    QuerySnapshot ds = await FirebaseFirestore.instance.collection('user').where('Email',isEqualTo: data['Email']).get();
-    var t =null;
-    if(ds.docs.length==0)
-    {
-      var _place = place?Place.one.index:Place.two.index;
-      Map mp ={'place':(_place+1).toString()};
+    QuerySnapshot ds = await FirebaseFirestore.instance
+        .collection('user')
+        .where('Email', isEqualTo: data['Email'])
+        .get();
+    var t = null;
+    if (ds.docs.length == 0) {
+      var _place = place ? Place.one.index : Place.two.index;
+      Map mp = {'place': (_place + 1).toString()};
       mp.addAll(data);
 
-
-        t = await FirebaseFirestore.instance.collection('user').add(Map<String, dynamic>.from(mp));
-       ds = await FirebaseFirestore.instance.collection('user').where('Email',isEqualTo: data['Email']).get();
-
+      t = await FirebaseFirestore.instance
+          .collection('user')
+          .add(Map<String, dynamic>.from(mp));
+      ds = await FirebaseFirestore.instance
+          .collection('user')
+          .where('Email', isEqualTo: data['Email'])
+          .get();
 
       Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
       prefs.setString("_foodemail", data['Email']);
       prefs.setString("_foodplace", ds.docs.first.data()["place"].toString());
 
-      await  FirebaseMessaging.instance.subscribeToTopic(ds.docs.first.data()["place"]);
-
-
+      await FirebaseMessaging.instance
+          .subscribeToTopic(ds.docs.first.data()["place"]);
     }
-
 
     setState(() {
       _loading = false;
     });
 
     showpopup(t);
-
-
   }
-  showpopup(res){
-    if(res==null)
-    {
+
+  showpopup(res) {
+    if (res == null) {
       Alert(
         context: context,
         type: AlertType.error,
         title: "ERROR",
         desc: "USER ALREADY EXISTS",
         buttons: [
-
           DialogButton(
-            onPressed: (){
-              Navigator.pop(context,true);
+            onPressed: () {
+              Navigator.pop(context, true);
             },
             child: Text(
               "OK",
@@ -343,12 +342,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () {
-            FlutterRestart.restartApp();
+            Get.offAll(() => LoginInScreen());
+            // FlutterRestart.restartApp();
 
-          //   Navigator.pop(context);
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginInScreen(),));
-
-          }          ,
+            //   Navigator.pop(context);
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginInScreen(),));
+          },
           width: 120,
         )
       ],
@@ -356,5 +355,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // Manage_Employee
   }
-
 }

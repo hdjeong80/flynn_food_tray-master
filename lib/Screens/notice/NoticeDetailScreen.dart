@@ -50,7 +50,10 @@ class _NoticeDetailScreenState extends State<NoticeDetailScreen> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
+            widget._Noticemodal.url!=null?
+          Image(image: NetworkImage(widget._Noticemodal.url)):Container()  ,
             GestureDetector(
               onTap: () {
                 Navigator.push(

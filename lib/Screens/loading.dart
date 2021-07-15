@@ -43,7 +43,7 @@ class _LoadingState extends State<Loading> {
           visible: Loading.isLoading,
           child: Center(
             child: CircularProgressIndicator(
-              color: greenColor,
+              // color: greenColor,
             ),
           ),
         ),

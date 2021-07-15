@@ -231,7 +231,7 @@ packages:
     source: hosted
     version: "2.0.0+1"
   flutter_localizations:
-    dependency: transitive
+    dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -270,6 +270,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.22.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -280,6 +287,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  get:
+    dependency: "direct main"
+    description:
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.4"
+  hand_signature:
+    dependency: "direct main"
+    description:
+      name: hand_signature
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+1"
   http:
     dependency: transitive
     description:
@@ -378,6 +399,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
   path_parsing:
     dependency: transitive
     description:
@@ -441,20 +469,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.0"
-  permission_handler:
-    dependency: "direct main"
-    description:
-      name: permission_handler
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.1.0+2"
-  permission_handler_platform_interface:
-    dependency: transitive
-    description:
-      name: permission_handler_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.2"
   petitparser:
     dependency: transitive
     description:
@@ -462,6 +476,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
+  photo_view:
+    dependency: "direct main"
+    description:
+      name: photo_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.1"
   platform:
     dependency: transitive
     description:

@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:food_tray/Screens/see_my_subscriptions/my_subscriptions.dart';
 import '../subscribe/SubscribeScreen.dart';
 import 'NoticeModal.dart';
 
@@ -46,7 +46,9 @@ class _NoticeScreenState extends State<NoticeScreen> {
           iconTheme: IconThemeData(color: blackColor),
           actions: [
             PopupMenuButton(
-                onCanceled: () {
+              onSelected: (r){
+                print(r);
+                if(r=='1'){
                   Get.dialog(
                     AlertDialog(
                       title: Text('확인'),
@@ -59,178 +61,179 @@ class _NoticeScreenState extends State<NoticeScreen> {
                             style: TextStyle(color: greenColor),
                           ),
                         ),
+
                         TextButton(
                           onPressed: () {
                             Get.back();
                             Get.dialog(StatefulBuilder(
                               builder: (dialogContext, dialogSetState) =>
                                   Loading(
-                                child: AlertDialog(
-                                  title: Text('가입 지역 변경'),
-                                  content: Container(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SizedBox(height: height * 0.04),
-                                        InkWell(
-                                          onTap: () {
-                                            dialogSetState(() {
-                                              _selectedPlace = 1;
-                                            });
-                                          },
-                                          child: Card(
-                                            color: _selectedPlace == 1
-                                                ? greenColor
-                                                : Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
+                                    child: AlertDialog(
+                                      title: Text('가입 지역 변경'),
+                                      content: Container(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SizedBox(height: height * 0.04),
+                                            InkWell(
+                                              onTap: () {
+                                                dialogSetState(() {
+                                                  _selectedPlace = 1;
+                                                });
+                                              },
+                                              child: Card(
+                                                color: _selectedPlace == 1
+                                                    ? greenColor
+                                                    : Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
                                                     BorderRadius.circular(100),
-                                                side: BorderSide(
-                                                    color: greenColor)),
-                                            child: SizedBox(
-                                              width: Get.width / 1.5,
-                                              height: Get.width / 8,
-                                              child: Center(
-                                                child: Text(
-                                                  '흥덕/서원/세종',
-                                                  style: TextStyle(
-                                                    color: _selectedPlace == 1
-                                                        ? Colors.white
-                                                        : greenColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                                    side: BorderSide(
+                                                        color: greenColor)),
+                                                child: SizedBox(
+                                                  width: Get.width / 1.5,
+                                                  height: Get.width / 8,
+                                                  child: Center(
+                                                    child: Text(
+                                                      '흥덕/서원/세종',
+                                                      style: TextStyle(
+                                                        color: _selectedPlace == 1
+                                                            ? Colors.white
+                                                            : greenColor,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                        SizedBox(height: height * 0.02),
-                                        InkWell(
-                                          onTap: () {
-                                            dialogSetState(() {
-                                              _selectedPlace = 2;
-                                            });
-                                          },
-                                          child: Card(
-                                            color: _selectedPlace == 2
-                                                ? greenColor
-                                                : Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
+                                            SizedBox(height: height * 0.02),
+                                            InkWell(
+                                              onTap: () {
+                                                dialogSetState(() {
+                                                  _selectedPlace = 2;
+                                                });
+                                              },
+                                              child: Card(
+                                                color: _selectedPlace == 2
+                                                    ? greenColor
+                                                    : Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
                                                     BorderRadius.circular(100),
-                                                side: BorderSide(
-                                                    color: greenColor)),
-                                            child: SizedBox(
-                                              width: Get.width / 1.5,
-                                              height: Get.width / 8,
-                                              child: Center(
-                                                child: Text(
-                                                  '상당/청원/충북',
-                                                  style: TextStyle(
-                                                    color: _selectedPlace == 2
-                                                        ? Colors.white
-                                                        : greenColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                                    side: BorderSide(
+                                                        color: greenColor)),
+                                                child: SizedBox(
+                                                  width: Get.width / 1.5,
+                                                  height: Get.width / 8,
+                                                  child: Center(
+                                                    child: Text(
+                                                      '상당/청원/충북',
+                                                      style: TextStyle(
+                                                        color: _selectedPlace == 2
+                                                            ? Colors.white
+                                                            : greenColor,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                        SizedBox(height: height * 0.04),
-                                        AnimatedOpacity(
-                                          opacity: _selectedPlace == 0 ? 0 : 1,
-                                          duration: Duration(milliseconds: 500),
-                                          child: Row(
-                                            mainAxisAlignment:
+                                            SizedBox(height: height * 0.04),
+                                            AnimatedOpacity(
+                                              opacity: _selectedPlace == 0 ? 0 : 1,
+                                              duration: Duration(milliseconds: 500),
+                                              child: Row(
+                                                mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  _selectedPlace = 0;
-                                                  Get.back();
-                                                },
-                                                child: Text(
-                                                  '취소',
-                                                  style: TextStyle(
-                                                    color: greenColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      _selectedPlace = 0;
+                                                      Get.back();
+                                                    },
+                                                    child: Text(
+                                                      '취소',
+                                                      style: TextStyle(
+                                                        color: greenColor,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              TextButton(
-                                                onPressed: () async {
-                                                  String _newPlace =
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      String _newPlace =
                                                       _selectedPlace == 1
                                                           ? '1'
                                                           : '2';
-                                                  dialogSetState(() {
-                                                    Loading.isLoading = true;
-                                                  });
-                                                  _selectedPlace = 0;
+                                                      dialogSetState(() {
+                                                        Loading.isLoading = true;
+                                                      });
+                                                      _selectedPlace = 0;
 
-                                                  QuerySnapshot ds = null;
-                                                  ds = await FirebaseFirestore
-                                                      .instance
-                                                      .collection('user')
-                                                      .where('Email',
+                                                      QuerySnapshot ds = null;
+                                                      ds = await FirebaseFirestore
+                                                          .instance
+                                                          .collection('user')
+                                                          .where('Email',
                                                           isEqualTo: widget
                                                               .userModal.Email)
-                                                      .get();
+                                                          .get();
 
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .collection('user')
-                                                      .doc(ds.docs.first.id)
-                                                      .update({
-                                                    'place': _newPlace,
-                                                  });
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection('user')
+                                                          .doc(ds.docs.first.id)
+                                                          .update({
+                                                        'place': _newPlace,
+                                                      });
 
-                                                  widget.userModal.place =
-                                                      _newPlace;
-                                                  if (_newPlace == '1') {
-                                                    widget.userModal.plceEnum =
-                                                        Place.one;
-                                                  } else {
-                                                    widget.userModal.plceEnum =
-                                                        Place.two;
-                                                  }
-                                                  ;
+                                                      widget.userModal.place =
+                                                          _newPlace;
+                                                      if (_newPlace == '1') {
+                                                        widget.userModal.plceEnum =
+                                                            Place.one;
+                                                      } else {
+                                                        widget.userModal.plceEnum =
+                                                            Place.two;
+                                                      }
+                                                      ;
 
-                                                  final SharedPreferences
+                                                      final SharedPreferences
                                                       prefs =
                                                       await SharedPreferences
                                                           .getInstance();
-                                                  await prefs.setString(
-                                                      "_foodplace", _newPlace);
+                                                      await prefs.setString(
+                                                          "_foodplace", _newPlace);
 
-                                                  ls.clear();
+                                                      ls.clear();
 
-                                                  dialogSetState(() {
-                                                    Loading.isLoading = false;
-                                                  });
-                                                  Get.back();
-                                                },
-                                                child: Text(
-                                                  '변경하기',
-                                                  style: TextStyle(
-                                                    color: greenColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                                      dialogSetState(() {
+                                                        Loading.isLoading = false;
+                                                      });
+                                                      Get.back();
+                                                    },
+                                                    child: Text(
+                                                      '변경하기',
+                                                      style: TextStyle(
+                                                        color: greenColor,
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
                             )).then((value) => setState(() {}));
                           },
                           child: Text(
@@ -238,17 +241,231 @@ class _NoticeScreenState extends State<NoticeScreen> {
                             style: TextStyle(color: greenColor),
                           ),
                         ),
+
                       ],
                     ),
                   );
+                }
+                else{
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => My_Subscriptions(widget.userModal),) );
+
+                }
+              },
+
+                onCanceled: () {
+                  // Get.dialog(
+                  //   AlertDialog(
+                  //     title: Text('확인'),
+                  //     content: Text('가입하신 지역을 정말 변경하시겠습니까?'),
+                  //     actions: [
+                  //       TextButton(
+                  //         onPressed: () => Get.back(),
+                  //         child: Text(
+                  //           '취소',
+                  //           style: TextStyle(color: greenColor),
+                  //         ),
+                  //       ),
+                  //
+                  //       TextButton(
+                  //         onPressed: () {
+                  //           Get.back();
+                  //           Get.dialog(StatefulBuilder(
+                  //             builder: (dialogContext, dialogSetState) =>
+                  //                 Loading(
+                  //               child: AlertDialog(
+                  //                 title: Text('가입 지역 변경'),
+                  //                 content: Container(
+                  //                   child: Column(
+                  //                     mainAxisSize: MainAxisSize.min,
+                  //                     children: [
+                  //                       SizedBox(height: height * 0.04),
+                  //                       InkWell(
+                  //                         onTap: () {
+                  //                           dialogSetState(() {
+                  //                             _selectedPlace = 1;
+                  //                           });
+                  //                         },
+                  //                         child: Card(
+                  //                           color: _selectedPlace == 1
+                  //                               ? greenColor
+                  //                               : Colors.white,
+                  //                           shape: RoundedRectangleBorder(
+                  //                               borderRadius:
+                  //                                   BorderRadius.circular(100),
+                  //                               side: BorderSide(
+                  //                                   color: greenColor)),
+                  //                           child: SizedBox(
+                  //                             width: Get.width / 1.5,
+                  //                             height: Get.width / 8,
+                  //                             child: Center(
+                  //                               child: Text(
+                  //                                 '흥덕/서원/세종',
+                  //                                 style: TextStyle(
+                  //                                   color: _selectedPlace == 1
+                  //                                       ? Colors.white
+                  //                                       : greenColor,
+                  //                                   fontSize: 14,
+                  //                                   fontWeight: FontWeight.bold,
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                       SizedBox(height: height * 0.02),
+                  //                       InkWell(
+                  //                         onTap: () {
+                  //                           dialogSetState(() {
+                  //                             _selectedPlace = 2;
+                  //                           });
+                  //                         },
+                  //                         child: Card(
+                  //                           color: _selectedPlace == 2
+                  //                               ? greenColor
+                  //                               : Colors.white,
+                  //                           shape: RoundedRectangleBorder(
+                  //                               borderRadius:
+                  //                                   BorderRadius.circular(100),
+                  //                               side: BorderSide(
+                  //                                   color: greenColor)),
+                  //                           child: SizedBox(
+                  //                             width: Get.width / 1.5,
+                  //                             height: Get.width / 8,
+                  //                             child: Center(
+                  //                               child: Text(
+                  //                                 '상당/청원/충북',
+                  //                                 style: TextStyle(
+                  //                                   color: _selectedPlace == 2
+                  //                                       ? Colors.white
+                  //                                       : greenColor,
+                  //                                   fontSize: 14,
+                  //                                   fontWeight: FontWeight.bold,
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                       SizedBox(height: height * 0.04),
+                  //                       AnimatedOpacity(
+                  //                         opacity: _selectedPlace == 0 ? 0 : 1,
+                  //                         duration: Duration(milliseconds: 500),
+                  //                         child: Row(
+                  //                           mainAxisAlignment:
+                  //                               MainAxisAlignment.spaceEvenly,
+                  //                           children: [
+                  //                             TextButton(
+                  //                               onPressed: () {
+                  //                                 _selectedPlace = 0;
+                  //                                 Get.back();
+                  //                               },
+                  //                               child: Text(
+                  //                                 '취소',
+                  //                                 style: TextStyle(
+                  //                                   color: greenColor,
+                  //                                   fontSize: 14,
+                  //                                   fontWeight: FontWeight.bold,
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                             TextButton(
+                  //                               onPressed: () async {
+                  //                                 String _newPlace =
+                  //                                     _selectedPlace == 1
+                  //                                         ? '1'
+                  //                                         : '2';
+                  //                                 dialogSetState(() {
+                  //                                   Loading.isLoading = true;
+                  //                                 });
+                  //                                 _selectedPlace = 0;
+                  //
+                  //                                 QuerySnapshot ds = null;
+                  //                                 ds = await FirebaseFirestore
+                  //                                     .instance
+                  //                                     .collection('user')
+                  //                                     .where('Email',
+                  //                                         isEqualTo: widget
+                  //                                             .userModal.Email)
+                  //                                     .get();
+                  //
+                  //                                 await FirebaseFirestore
+                  //                                     .instance
+                  //                                     .collection('user')
+                  //                                     .doc(ds.docs.first.id)
+                  //                                     .update({
+                  //                                   'place': _newPlace,
+                  //                                 });
+                  //
+                  //                                 widget.userModal.place =
+                  //                                     _newPlace;
+                  //                                 if (_newPlace == '1') {
+                  //                                   widget.userModal.plceEnum =
+                  //                                       Place.one;
+                  //                                 } else {
+                  //                                   widget.userModal.plceEnum =
+                  //                                       Place.two;
+                  //                                 }
+                  //                                 ;
+                  //
+                  //                                 final SharedPreferences
+                  //                                     prefs =
+                  //                                     await SharedPreferences
+                  //                                         .getInstance();
+                  //                                 await prefs.setString(
+                  //                                     "_foodplace", _newPlace);
+                  //
+                  //                                 ls.clear();
+                  //
+                  //                                 dialogSetState(() {
+                  //                                   Loading.isLoading = false;
+                  //                                 });
+                  //                                 Get.back();
+                  //                               },
+                  //                               child: Text(
+                  //                                 '변경하기',
+                  //                                 style: TextStyle(
+                  //                                   color: greenColor,
+                  //                                   fontSize: 14,
+                  //                                   fontWeight: FontWeight.bold,
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           )).then((value) => setState(() {}));
+                  //         },
+                  //         child: Text(
+                  //           '변경하기',
+                  //           style: TextStyle(color: greenColor),
+                  //         ),
+                  //       ),
+                  //
+                  //     ],
+                  //   ),
+                  // );
                 },
                 itemBuilder: (context) => [
                       PopupMenuItem(
+                        value: '1',
                         child: Text('가입 지역 변경'),
                       ),
-                    ]
+                    PopupMenuItem(
+                      value: '2',
+                      child: Text('가입신청서 확인'),
+
+                      ),
+
+                ]
                 // },
                 ),
+
+
             // IconButton(onPressed: () {
             //   DropDown
             // }, icon: Icon(Icons.more_horiz)),

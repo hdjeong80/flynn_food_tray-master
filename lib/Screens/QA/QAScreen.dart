@@ -56,7 +56,8 @@ class _QAScreenState extends State<QAScreen> {
         formKey.currentState.save();
         if (formKey.currentState.validate()) {
           var val = formKey.currentState.value;
-          Map mp = {"Email": widget.userModal.Email, "time": DateTime.now()};
+          Map mp = {"Email": widget.userModal.Email, "time": DateTime.now(),
+          'place':widget.userModal.place};
           mp.addAll(val);
           print(val['question']);
           QuerySnapshot qs = await FirebaseFirestore.instance

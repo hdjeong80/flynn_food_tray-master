@@ -17,9 +17,12 @@ class NoticeModal extends StatelessWidget {
   String notice ;
   String date;
   String text;
+  String url;
 
   init(){
-  notice=  queryDocumentSnapshot.data()['notice']??"";
+  notice=  queryDocumentSnapshot.data()['notice'];
+  url=  queryDocumentSnapshot.data()['url']??"";
+  
   DateTime dt =(queryDocumentSnapshot.data()['date']??Timestamp.fromDate(DateTime.now()) ).toDate() ;
   text =  queryDocumentSnapshot.data()['text']??"첨부 된 텍스트 없음  ";
   date = DateFormat("yyyy.MM.dd").format(dt);
@@ -40,36 +43,45 @@ class NoticeModal extends StatelessWidget {
           ),
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          TextWidget(
-            text: heading,
-            style: TextStyle(
-              color: blackColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          url!=null?
+          Container(
+              height: 60,
+              width: 60,
+              child: Image.network(url)):Container(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextWidget(
-                text: date,
+                text: heading,
                 style: TextStyle(
-                  color: grayColor,
-                  fontWeight: FontWeight.normal,
+                  color: blackColor,
+                  fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextWidget(
+                    text: date,
+                    style: TextStyle(
+                      color: grayColor,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: grayColor,
+                  ),
+                ],
+              ),
+              Divider(
                 color: grayColor,
               ),
             ],
-          ),
-          Divider(
-            color: grayColor,
           ),
         ],
       ),

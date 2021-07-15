@@ -796,8 +796,11 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
     setState(() {
       _loading = true;
     });
+    print(1);
 
     String Url = await _capturePng();
+
+    print(2);
 
     Map mp = {
       "Email": widget.userModal.Email,
@@ -811,9 +814,14 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
     mp.addAll(data);
     print(widget.userModal.Email);
 
+    print(3);
+
     await FirebaseFirestore.instance
         .collection("subscription")
         .add(Map.from(mp));
+
+    print(4);
+
     setState(() {
       _loading = false;
     });
@@ -825,12 +833,26 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
   }
 
   Future<String> _capturePng() async {
+
+    final pixelRatio = MediaQuery.of(context).devicePixelRatio;
+
+
+    print(11);
     RenderRepaintBoundary boundary =
         globalKey.currentContext.findRenderObject() as RenderRepaintBoundary;
-    var image = await boundary.toImage(pixelRatio: 2);
+    print(12);
+
+    var image = await boundary.toImage();
+    print(13);
+
     ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+    print(14);
+
     Uint8List pngBytes = byteData.buffer.asUint8List();
+    print(15);
+
     Image.network(pngBytes.toString());
+    print(16);
 
     String url = await uploadFile(pngBytes, context, widget.userModal.Email);
     print(url);
